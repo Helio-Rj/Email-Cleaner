@@ -39,5 +39,5 @@ def main():
 
 
 if __name__ == "__main__":
-    # Garante que a função main seja executada apenas quando o script for chamado diretamente.
+    # Garante que a função main seja executada apenas quando o ‘script’ for chamado diretamente.
     main()

@@ -15,5 +15,5 @@ def carregar_config():
         encoding="utf-8"
     ) as arquivo:
 
-        # Converte o conteúdo JSON em um dicionário Python.
+        # Converte o conteúdo JSON num dicionário Python.
         return json.load(arquivo)

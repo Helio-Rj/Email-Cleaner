@@ -36,10 +36,10 @@ def apagar_remetente(service, email):
 
             apagados += 1
 
-        # Atualiza o token da próxima página, caso existam mais resultados.
+        # Atualiza o ‘token’ da próxima página, caso existam mais resultados.
         page_token = resultado.get("nextPageToken")
 
-        # Se não houver mais páginas, encerra o loop.
+        # Se não houver mais páginas, encerra o ‘loop’.
         if not page_token:
             break
 
