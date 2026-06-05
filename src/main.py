@@ -4,40 +4,27 @@ from utils import carregar_config
 
 
 def main():
-    """Função principal do programa.
-
-    Carrega a lista de remetentes a serem removidos, autentica no Gmail
-    e chama a função de limpeza para cada remetente.
-    """
-
-    # Carrega as configurações do arquivo JSON.
     config = carregar_config()
     lista_negra = config["lista_negra"]
 
-    # Cria um serviço autenticado da API Gmail.
     service = autenticar_gmail()
 
     total_apagados = 0
+    limite_global = 3000
 
-    # Para cada remetente da lista negra, busca e apaga mensagens.
+    print("\n🚀 Iniciando limpeza de e-mails...\n")
+
     for remetente in lista_negra:
-        print(f"\nProcurando: {remetente}")
+        apagados, total_apagados = apagar_remetente(service, remetente, limite_global, total_apagados)
+        if total_apagados >= limite_global:
+            print("\n⛔ Limite global atingido. Encerrando execução.")
+            break
 
-        quantidade = apagar_remetente(
-            service,
-            remetente
-        )
-
-        print(f"Apagados: {quantidade}")
-
-        total_apagados += quantidade
-
-    # Exibe o total de mensagens removidas no final.
-    print("\n======================")
-    print(f"TOTAL APAGADO: {total_apagados}")
-    print("======================")
+    print("\n==================================================")
+    print("✅ LIMPEZA CONCLUÍDA")
+    print(f"📊 TOTAL DE MENSAGENS APAGADAS: {total_apagados} (limite {limite_global})")
+    print("==================================================")
 
 
 if __name__ == "__main__":
-    # Garante que a função main seja executada apenas quando o ‘script’ for chamado diretamente.
     main()

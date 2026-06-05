@@ -1,46 +1,57 @@
-def apagar_remetente(service, email):
+def apagar_remetente(service, email, limite_global, contador_global):
     """Apaga (move para a lixeira) todas as mensagens de um remetente.
 
     Args:
         service: Objeto de serviço autenticado da API Gmail.
         email: Endereço de email do remetente a ser removido.
+        limite_global: número máximo de mensagens a apagar no total.
+        contador_global: contador atual de mensagens apagadas.
 
     Retorna:
-        O total de mensagens removidas para esse remetente.
+        O total de mensagens removidas para esse remetente
+        e o contador global atualizado.
     """
-
     apagados = 0
     page_token = None
 
-    # Loop para percorrer todas as páginas de resultados.
+    print(f"\n🔎 Iniciando busca por mensagens de {email}...")
+
     while True:
+        # Se já atingiu o limite global, interrompe
+        if contador_global >= limite_global:
+            print(f"⛔ Limite global de {limite_global} atingido. Encerrando busca.")
+            break
+
         resultado = service.users().messages().list(
-            userId="me",  # Usa a conta autenticada do usuário atual.
-            q=f"from:{email}",  # Pesquisa apenas mensagens daquele remetente.
+            userId="me",
+            q=f"from:{email}",
             pageToken=page_token
         ).execute()
 
-        # Extrai a lista de mensagens retornadas, se houver.
         mensagens = resultado.get("messages", [])
-
-        # Se não houver mensagens, encerra a busca.
         if not mensagens:
             break
 
-        # Para cada mensagem encontrada, envia para a lixeira.
         for msg in mensagens:
-            service.users().messages().trash(
-                userId="me",
-                id=msg["id"]
-            ).execute()
+            if contador_global >= limite_global:
+                print(f"⛔ Limite global de {limite_global} atingido. Parando em {email}.")
+                break
 
-            apagados += 1
+            try:
+                service.users().messages().trash(
+                    userId="me",
+                    id=msg["id"]
+                ).execute()
+                apagados += 1
+                contador_global += 1
+                print(f"🗑️ Apagada mensagem {msg['id']} de {email} "
+                      f"(total {apagados} desse remetente, {contador_global} no geral)")
+            except Exception as e:
+                print(f"⚠️ Erro ao apagar mensagem {msg['id']} de {email}: {e}")
 
-        # Atualiza o ‘token’ da próxima página, caso existam mais resultados.
         page_token = resultado.get("nextPageToken")
-
-        # Se não houver mais páginas, encerra o ‘loop’.
-        if not page_token:
+        if not page_token or contador_global >= limite_global:
             break
 
-    return apagados
+    print(f"✅ Concluído para {email}: {apagados} mensagens apagadas.\n")
+    return apagados, contador_global

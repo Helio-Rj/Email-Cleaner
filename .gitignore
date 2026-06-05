@@ -1,0 +1,24 @@
+# Arquivos sensíveis do Gmail
+credentials.json
+token.json
+
+# Logs e saídas temporárias
+*.log
+
+# Cache do Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Ambientes virtuais
+venv/
+.env/
+
+# Configurações locais
+.settings/
+.idea/
+.vscode/
+
+# Arquivos de sistema
+.DS_Store
+Thumbs.db
