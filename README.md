@@ -1,4 +1,8 @@
-"# Email-Cleaner
+# Autoria: Helio Rj — GitHub: [@Helio-Rj](https://github.com/Helio-Rj)
+
+
+
+# Email-Cleaner
 
 Um utilitário Python simples para limpar automaticamente emails indesejados no Gmail com base em uma lista negra de remetentes.
 
