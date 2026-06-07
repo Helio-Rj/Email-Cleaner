@@ -22,7 +22,10 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Criar credentials.json
-        run: echo '${{ secrets.GOOGLE_CREDENTIALS_JSON }}' > credentials.json
+        run: |
+          cat > credentials.json <<EOF
+          ${{ secrets.GOOGLE_CREDENTIALS_JSON }}
+          EOF
 
       - name: Rodar script principal
         env:
