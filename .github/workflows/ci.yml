@@ -27,6 +27,10 @@ jobs:
           ${{ secrets.GOOGLE_CREDENTIALS_JSON }}
           EOF
 
+      - name: Validar credentials.json
+        run: |
+          python -c "import json; print('Chaves carregadas:', list(json.load(open('credentials.json')).keys()))"
+
       - name: Rodar script principal
         env:
           GMAIL_CLIENT_ID: ${{ secrets.GMAIL_CLIENT_ID }}
