@@ -16,7 +16,7 @@ jobs:
       - name: Configurar Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.11'   # versão mais atual e suportada pelo Google API
+          python-version: '3.11'
 
       - name: Instalar dependências
         run: pip install -r requirements.txt
@@ -29,7 +29,7 @@ jobs:
 
       - name: Validar credentials.json
         run: |
-          python -c "import json; print('Chaves carregadas:', list(json.load(open('credentials.json')).keys()))"
+          python -c "import json; data=json.load(open('credentials.json')); print('Chaves carregadas:', list(data.keys()))"
 
       - name: Rodar script principal
         env:
