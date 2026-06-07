@@ -5,7 +5,7 @@ from utils import carregar_config
 
 def main():
     """
-    Ponto de entrada do script.
+    Ponto de entrada do ‘script’.
 
     Fluxo principal:
     1. Carrega configuração (lista de remetentes) a partir de `config/settings.json`.
@@ -26,7 +26,7 @@ def main():
 
     print("\n🚀 Iniciando limpeza de e-mails...\n")
 
-    # Percorre cada remetente listado e solicita remoção de suas mensagens
+    # Percorre cada remetente listado e solicita remoção da suas mensagens
     for remetente in lista_negra:
         apagados, total_apagados = apagar_remetente(
             service, remetente, limite_global, total_apagados
@@ -36,7 +36,7 @@ def main():
             print("\n⛔ Limite global atingido. Encerrando execução.")
             break
 
-    # Resumo final — em produção, prefira gravar em log estruturado
+    # Resumo final — em produção, prefira gravar em ‘log’ estruturado
     print("\n==================================================")
     print("✅ LIMPEZA CONCLUÍDA")
     print(f"📊 TOTAL DE MENSAGENS APAGADAS: {total_apagados} (limite {limite_global})")
